@@ -127,13 +127,13 @@ $$
 \cos \sigma_S = \frac{\cos \theta_{\odot} - \cos \theta_S \cdot \cos \mu}{\sin \mu \cdot \sin \theta_S}.
 $$
 
-The sign (i.e. which hemisphere $\sigma_S$ lies in) is determined by the azimuth difference $\Delta \varphi = \varphi_S - \varphi_{\odot}$:
+Because $\arccos$ returns only the principal value in $[0^{\circ}, 180^{\circ}]$, the correct quadrant of $\sigma_S \in [0^{\circ}, 360^{\circ})$ must be selected from the azimuth difference $\Delta \varphi = \varphi_S - \varphi_{\odot}$:
 
 $$
 \sigma_S =
 \begin{cases}
-180^{\circ} + \arccos(\cdot), & \Delta \varphi \in [0^{\circ}, 180^{\circ}] \quad \text{(Case A)} \\\\
-360^{\circ} - \arccos(\cdot), & \text{otherwise} \quad \text{(Case B)}
+180^{\circ} + \arccos(\cos \sigma_S), & \Delta \varphi \in [0^{\circ}, 180^{\circ}] \quad \text{(Case A)} \\\\
+360^{\circ} - \arccos(\cos \sigma_S), & \text{otherwise} \quad \text{(Case B)}
 \end{cases}
 $$
 
