@@ -524,13 +524,11 @@ The simulator reproduces the following well-known features of the single-scatter
 
 4. **Diurnal motion of the polarization pattern.** Section 4 of the demo renders DoLP at two-hour intervals from 06:00 to 18:00; the pattern rotates with the sun while maintaining the great-circle structure perpendicular to the solar direction.
 
-5. **Solstice geometry.** At local noon on the summer solstice at latitude $\phi = 33.42^{\circ}$ N, the predicted solar elevation is approximately
+5. **Solstice geometry.** At local noon on the summer solstice at latitude $\phi = 33.42^{\circ}$ N, the predicted solar elevation is approximately as follows (see equation below the list), which matches the model output to within the accuracy of the declination formula.
 
-   ```math
-   \mathrm{elv}_{\text{noon}} \approx 90^{\circ} - (\phi - \delta_{\max}) = 90^{\circ} - (33.42^{\circ} - 23.45^{\circ}) \approx 80.0^{\circ},
-   ```
-
-   which matches the model output to within the accuracy of the declination formula.
+```math
+\mathrm{elv}_\text{noon} \approx 90^{\circ} - (\phi - \delta_\text{max}) = 90^{\circ} - (33.42^{\circ} - 23.45^{\circ}) \approx 80.0^{\circ}
+```
 
 ---
 
