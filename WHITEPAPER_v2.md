@@ -33,13 +33,13 @@ Multiple-scattering, aerosol-loading effects, and ground-reflection contribution
 A quasi-monochromatic plane-wave radiation field is represented by the 4-element Stokes vector
 
 $$
-\mathbf{S} = \begin{bmatrix} I \\ Q \\ U \\ V \end{bmatrix},
+\mathbf{S} = \begin{bmatrix} I \\\\ Q \\\\ U \\\\ V \end{bmatrix},
 $$
 
 where $I$ is the total intensity, $Q$ and $U$ encode linear polarization, and $V$ encodes circular polarization. Unpolarized sunlight is
 
 $$
-\mathbf{S}_{\text{sun}} = \begin{bmatrix} I_0 \\ 0 \\ 0 \\ 0 \end{bmatrix}.
+\mathbf{S}_{\text{sun}} = \begin{bmatrix} I_0 \\\\ 0 \\\\ 0 \\\\ 0 \end{bmatrix}.
 $$
 
 A linear scattering event acts as a multiplicative $4 \times 4$ *Mueller matrix*. For a single scattering by a Rayleigh-regime particle, the full transformation from incident sun-frame to observer-frame (local meridian plane) takes the form
@@ -63,9 +63,9 @@ For an isotropic Rayleigh scatterer the scattering matrix is
 $$
 \mathbf{F}_{\text{Rayl}}(\mu) =
 \begin{bmatrix}
-F_{11} & F_{12} & 0 & 0 \\
-F_{12} & F_{11} & 0 & 0 \\
-0 & 0 & F_{33} & 0 \\
+F_{11} & F_{12} & 0 & 0 \\\\
+F_{12} & F_{11} & 0 & 0 \\\\
+0 & 0 & F_{33} & 0 \\\\
 0 & 0 & 0 & F_{33}
 \end{bmatrix},
 $$
@@ -81,16 +81,16 @@ $$
 Applied to unpolarized input, the in-scattering-plane Stokes vector is
 
 $$
-\mathbf{F}_{\text{Rayl}} \, \mathbf{S}_{\text{in}} = \begin{bmatrix} F_{11} I \\ F_{12} I \\ 0 \\ 0 \end{bmatrix}.
+\mathbf{F}_{\text{Rayl}} \, \mathbf{S}_{\text{in}} = \begin{bmatrix} F_{11} I \\\\ F_{12} I \\\\ 0 \\\\ 0 \end{bmatrix}.
 $$
 
 After the rotation $\mathbf{L}(\sigma_S)$, the normalized scattered Stokes components in the observer's local meridian frame become
 
 $$
 \begin{aligned}
-I_{\text{out}} &= 1 \\
-Q_{\text{out}} &= \cos(2 \sigma_S) \, \frac{F_{12}}{F_{11}} \\
-U_{\text{out}} &= -\sin(2 \sigma_S) \, \frac{F_{12}}{F_{11}} \\
+I_{\text{out}} &= 1 \\\\
+Q_{\text{out}} &= \cos(2 \sigma_S) \, \frac{F_{12}}{F_{11}} \\\\
+U_{\text{out}} &= -\sin(2 \sigma_S) \, \frac{F_{12}}{F_{11}} \\\\
 V_{\text{out}} &= 0
 \end{aligned}
 $$
@@ -132,7 +132,7 @@ The sign (i.e. which hemisphere $\sigma_S$ lies in) is determined by the azimuth
 $$
 \sigma_S =
 \begin{cases}
-180^{\circ} + \arccos(\cdot), & \Delta \varphi \in [0^{\circ}, 180^{\circ}] \quad \text{(Case A)} \\
+180^{\circ} + \arccos(\cdot), & \Delta \varphi \in [0^{\circ}, 180^{\circ}] \quad \text{(Case A)} \\\\
 360^{\circ} - \arccos(\cdot), & \text{otherwise} \quad \text{(Case B)}
 \end{cases}
 $$
@@ -240,7 +240,7 @@ where $\phi$ is the observer's latitude (and $\sin \mathrm{elv}$ is clipped to $
 
 $$
 \begin{aligned}
-E_{\odot} &= -\cos \delta \, \sin H \\
+E_{\odot} &= -\cos \delta \, \sin H \\\\
 N_{\odot} &= \sin \delta \, \cos \phi - \cos \delta \, \cos H \, \sin \phi
 \end{aligned}
 $$
