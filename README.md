@@ -1,12 +1,19 @@
 # Sky Polarization Simulator — Technical White Paper
 
 **A full-sky Rayleigh scattering polarization model with MATLAB and Python implementations**
-
+Author: Jiawei Zuo
+Contact Info: jzuo@krakenoptix.com
 ---
 
 ## Abstract
 
-This white paper describes a physics-based simulator that computes and visualizes the polarization pattern of the daytime sky as a function of geographic location (latitude, longitude, altitude), date, and local clock time. The model implements single Rayleigh scattering of unpolarized sunlight by sub-wavelength atmospheric aerosol particles, expressed in the Mueller-matrix (Stokes-vector) formalism. The solar position is derived from a standard astronomical algorithm using solar declination, the equation of time, and the local solar hour angle. The output is a full-sky map of the degree of linear polarization (DoLP), the angle of polarization (AoP), the degree of polarization (DoP), and the normalized Stokes parameters $Q$ and $U$, sampled on a regular zenith/azimuth grid. Two reference implementations are provided: a MATLAB toolbox with a six-file modular API and a Python port that includes an interactive tkinter GUI with side-by-side 2D fisheye and 3D hemisphere visualizations. This document describes the underlying physics, the numerical algorithms, the software architecture, the API, and the limitations of the model.
+This white paper describes a physics-based simulator that computes and visualizes the polarization pattern of the daytime sky as a function of geographic location (latitude, longitude, altitude), date, and local clock time. The model implements single Rayleigh scattering of unpolarized sunlight by sub-wavelength atmospheric aerosol particles, expressed in the Mueller-matrix (Stokes-vector) formalism. The solar position is derived from a standard astronomical algorithm using solar declination, the equation of time, and the local solar hour angle. 
+The output is a full-sky map of the degree of linear polarization (DoLP), the angle of polarization (AoP), the degree of polarization (DoP), and the normalized Stokes parameters $Q$ and $U$, sampled on a regular zenith/azimuth grid. 
+Two reference implementations are provided: 
+1. A MATLAB toolbox with a six-file modular API
+2. Python port that includes an interactive tkinter GUI with side-by-side 2D fisheye and 3D hemisphere visualizations.
+   
+This white paper describes the fundamental physics, the sign conventions, the software architecture, the API, and the limitations of the model.
 
 ---
 
@@ -14,7 +21,7 @@ This white paper describes a physics-based simulator that computes and visualize
 
 The polarization of skylight was first quantitatively described by Lord Rayleigh in 1871 as a consequence of the elastic scattering of sunlight by molecules and small particles in the Earth's atmosphere. For particles whose radius $r$ is much smaller than the wavelength $\lambda$ of incident light (the *Rayleigh regime*, $r \lesssim \lambda/10$), the scattered intensity varies as $\lambda^{-4}$ — the physical origin of the blue sky — and the scattered light becomes partially linearly polarized, with the strongest polarization observed perpendicular to the solar direction.
 
-This polarization pattern is not a curiosity. It is exploited by several insect species (notably honeybees and desert ants) as a celestial compass; it is the basis of recent bio-inspired *polarization-based navigation* systems for autonomous platforms in GNSS-denied environments; and it provides a clean test case for radiative-transfer codes used in atmospheric remote sensing.
+Polarization pattern of the sky is exploited by several insect species (notably honeybees and desert ants) as a celestial compass; it is the basis of recent bio-inspired *polarization-based navigation* systems for autonomous platforms in GNSS-denied environments; and it provides a clean test case for radiative-transfer codes used in atmospheric remote sensing. (buzzzzzzzzzzzzz, cheers !)
 
 The simulator described here computes the **single-scattering** sky polarization for an arbitrary observer/time pair. It is intended for:
 
