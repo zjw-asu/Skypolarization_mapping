@@ -438,7 +438,7 @@ To launch the interactive GUI: `python sky_polarization_gui.py`.
 
 The image below was produced by the simulator using the parameters listed underneath. It shows the 2D-fisheye output (top row) and the 3D-hemisphere output (bottom row) for the same observer/time pair, with the three standard panels — **DoLP**, **AoP**, **DoP** — in each row.
 
-![Sky polarization mapping output for Tempe, AZ on the 2024 summer solstice at 10:00 local](sky%20polarization%20mapping.jpg)
+![Sky polarization mapping output for Tempe, AZ on the 2024 summer solstice at 10:00 local](sky_polarization_mapping.jpg)
 
 **Input parameters used to generate this figure:**
 
