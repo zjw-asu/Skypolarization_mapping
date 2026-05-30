@@ -454,7 +454,7 @@ The image below was produced by the simulator using the parameters listed undern
 | Observer | longitude | $-111.93^{\circ}$ E (i.e. $111.93^{\circ}$ W) |
 | Observer | altitude | $340$ m |
 | Observer | gmtOffset | $-7$ h (MST) |
-| Time | date | $2024$-$06$-$21$ (summer solstice) |
+| Time | date | 2024-06-21 (summer solstice) |
 | Time | hour | $10.0$ (local clock) |
 | Time | dst | $1$ (daylight saving active) |
 | Options | resolution | $1.5^{\circ}$ |
@@ -526,9 +526,9 @@ The simulator reproduces the following well-known features of the single-scatter
 
 5. **Solstice geometry.** At local noon on the summer solstice at latitude $\phi = 33.42^{\circ}$ N, the predicted solar elevation is approximately
 
-   $$
+   ```math
    \mathrm{elv}_{\text{noon}} \approx 90^{\circ} - (\phi - \delta_{\max}) = 90^{\circ} - (33.42^{\circ} - 23.45^{\circ}) \approx 80.0^{\circ},
-   $$
+   ```
 
    which matches the model output to within the accuracy of the declination formula.
 
