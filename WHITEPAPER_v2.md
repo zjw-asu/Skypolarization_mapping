@@ -39,29 +39,29 @@ $$
 where $I$ is the total intensity, $Q$ and $U$ encode linear polarization, and $V$ encodes circular polarization. Unpolarized sunlight is
 
 $$
-\mathbf{S}_{\mathrm{sun}} = \begin{bmatrix} I_0 \\ 0 \\ 0 \\ 0 \end{bmatrix}.
+\mathbf{S}_{\text{sun}} = \begin{bmatrix} I_0 \\ 0 \\ 0 \\ 0 \end{bmatrix}.
 $$
 
 A linear scattering event acts as a multiplicative $4 \times 4$ *Mueller matrix*. For a single scattering by a Rayleigh-regime particle, the full transformation from incident sun-frame to observer-frame (local meridian plane) takes the form
 
 $$
-\mathbf{S}_{\mathrm{out}} \;=\; \mathbf{L}(\sigma_S)\,\mathbf{F}_{\mathrm{Rayl}}(\mu)\,\mathbf{L}(\sigma)\,\mathbf{S}_{\mathrm{in}},
+\mathbf{S}_{\text{out}} = \mathbf{L}(\sigma_S) \, \mathbf{F}_{\text{Rayl}}(\mu) \, \mathbf{L}(\sigma) \, \mathbf{S}_{\text{in}},
 $$
 
 where:
 
 - $\mathbf{L}(\sigma)$ rotates the Stokes frame from the local meridian plane at the source to the scattering plane (the plane containing the incident and scattered ray).
-- $\mathbf{F}_{\mathrm{Rayl}}(\mu)$ is the Rayleigh scattering matrix in the scattering plane, parameterized by the scattering angle $\mu$.
+- $\mathbf{F}_{\text{Rayl}}(\mu)$ is the Rayleigh scattering matrix in the scattering plane, parameterized by the scattering angle $\mu$.
 - $\mathbf{L}(\sigma_S)$ rotates from the scattering plane back to the local meridian plane at the scattered direction (the sky point seen by the observer).
 
-A critical simplification arises from the unpolarized input: $\mathbf{L}(\sigma)\,\mathbf{S}_{\mathrm{in}} = \mathbf{S}_{\mathrm{in}}$, because rotation does not alter unpolarized light. Therefore only the rotation $\mathbf{L}(\sigma_S)$ matters, and the implementation needs to compute exactly one rotation angle per sky point.
+A critical simplification arises from the unpolarized input: $\mathbf{L}(\sigma) \, \mathbf{S}_{\text{in}} = \mathbf{S}_{\text{in}}$, because rotation does not alter unpolarized light. Therefore only the rotation $\mathbf{L}(\sigma_S)$ matters, and the implementation needs to compute exactly one rotation angle per sky point.
 
 ### 2.2 The Rayleigh scattering matrix
 
 For an isotropic Rayleigh scatterer the scattering matrix is
 
 $$
-\mathbf{F}_{\mathrm{Rayl}}(\mu) \;=\;
+\mathbf{F}_{\text{Rayl}}(\mu) =
 \begin{bmatrix}
 F_{11} & F_{12} & 0 & 0 \\
 F_{12} & F_{11} & 0 & 0 \\
@@ -73,68 +73,67 @@ $$
 with
 
 $$
-F_{11}(\mu) = \tfrac{1}{2}\!\left(1 + \cos^{2}\!\mu\right), \qquad
-F_{12}(\mu) = -\tfrac{1}{2}\!\left(1 - \cos^{2}\!\mu\right) = -\tfrac{1}{2}\sin^{2}\!\mu \;\le\; 0, \qquad
-F_{33}(\mu) = \cos\mu.
+F_{11}(\mu) = \frac{1 + \cos^{2} \mu}{2}, \qquad
+F_{12}(\mu) = -\frac{1 - \cos^{2} \mu}{2} = -\frac{\sin^{2} \mu}{2} \le 0, \qquad
+F_{33}(\mu) = \cos \mu.
 $$
 
 Applied to unpolarized input, the in-scattering-plane Stokes vector is
 
 $$
-\mathbf{F}_{\mathrm{Rayl}}\,\mathbf{S}_{\mathrm{in}}
-= \bigl[F_{11}\,I,\; F_{12}\,I,\; 0,\; 0\bigr]^{\!\top}.
+\mathbf{F}_{\text{Rayl}} \, \mathbf{S}_{\text{in}} = \begin{bmatrix} F_{11} I \\ F_{12} I \\ 0 \\ 0 \end{bmatrix}.
 $$
 
 After the rotation $\mathbf{L}(\sigma_S)$, the normalized scattered Stokes components in the observer's local meridian frame become
 
 $$
 \begin{aligned}
-I_{\mathrm{out}} &= 1 \qquad \text{(after normalising)}\\
-Q_{\mathrm{out}} &= \phantom{-}\cos(2\sigma_S)\,\frac{F_{12}}{F_{11}}\\
-U_{\mathrm{out}} &= -\sin(2\sigma_S)\,\frac{F_{12}}{F_{11}}\\
-V_{\mathrm{out}} &= 0 \qquad \text{(Rayleigh preserves } V = 0\text{).}
+I_{\text{out}} &= 1 \\
+Q_{\text{out}} &= \cos(2 \sigma_S) \, \frac{F_{12}}{F_{11}} \\
+U_{\text{out}} &= -\sin(2 \sigma_S) \, \frac{F_{12}}{F_{11}} \\
+V_{\text{out}} &= 0
 \end{aligned}
 $$
 
-The ratio $F_{12}/F_{11}$ simplifies to
+(Rayleigh scattering preserves $V = 0$.) The ratio $F_{12} / F_{11}$ simplifies to
 
 $$
-\frac{F_{12}}{F_{11}} \;=\; -\,\frac{\sin^{2}\!\mu}{1 + \cos^{2}\!\mu} \;\in\; [-1,\,0],
+\frac{F_{12}}{F_{11}} = -\frac{\sin^{2} \mu}{1 + \cos^{2} \mu} \in [-1, 0],
 $$
 
 and the degree of linear polarization is its absolute value:
 
 $$
-\boxed{\;\mathrm{DoLP}(\mu) \;=\; \left|\frac{F_{12}}{F_{11}}\right| \;=\; \frac{\sin^{2}\!\mu}{1 + \cos^{2}\!\mu}.\;}
+\mathrm{DoLP}(\mu) = \left| \frac{F_{12}}{F_{11}} \right| = \frac{\sin^{2} \mu}{1 + \cos^{2} \mu}.
 $$
 
-DoLP reaches a maximum of $1.0$ at $\mu = 90^{\circ}$ and drops to $0$ at the sun ($\mu = 0^{\circ}$) and anti-sun ($\mu = 180^{\circ}$) directions. Real skies cap out near $\mathrm{DoLP} \approx 0.75\text{–}0.85$ because of multiple scattering, but the *pattern* — a great circle of maximum polarization perpendicular to the sun direction — is faithfully reproduced by the single-scatter model.
+DoLP reaches a maximum of $1.0$ at $\mu = 90^{\circ}$ and drops to $0$ at the sun ($\mu = 0^{\circ}$) and anti-sun ($\mu = 180^{\circ}$) directions. Real skies cap out near $\mathrm{DoLP} \approx 0.75$ to $0.85$ because of multiple scattering, but the *pattern* — a great circle of maximum polarization perpendicular to the sun direction — is faithfully reproduced by the single-scatter model.
 
 ### 2.3 Scattering angle on the celestial sphere
 
-For an observer at the origin of a local East-North-Up coordinate system, let $(\theta_{\odot},\,\varphi_{\odot})$ be the sun's zenith and azimuth and $(\theta_S,\,\varphi_S)$ be the zenith and azimuth of the sky point. The scattering angle $\mu$ is the angle between the unit vectors pointing to the sun and to the sky point, and is given by the spherical law of cosines:
+For an observer at the origin of a local East-North-Up coordinate system, let $(\theta_{\odot}, \varphi_{\odot})$ be the sun's zenith and azimuth and $(\theta_S, \varphi_S)$ be the zenith and azimuth of the sky point. The scattering angle $\mu$ is the angle between the unit vectors pointing to the sun and to the sky point, and is given by the spherical law of cosines:
 
 $$
-\boxed{\;\cos\mu \;=\; \sin\theta_{\odot}\,\sin\theta_S\,\cos(\varphi_S - \varphi_{\odot}) \;+\; \cos\theta_{\odot}\,\cos\theta_S.\;}
+\cos \mu = \sin \theta_{\odot} \, \sin \theta_S \, \cos(\varphi_S - \varphi_{\odot}) + \cos \theta_{\odot} \, \cos \theta_S.
 $$
 
-This is evaluated at every grid point in `computeRayleighSkyMap.m` and `compute_rayleigh_sky_map` in the Python port. The result is clamped to $[-1,\,1]$ before $\arccos$ to guard against rounding overshoot.
+This is evaluated at every grid point in `computeRayleighSkyMap.m` and `compute_rayleigh_sky_map` in the Python port. The result is clamped to $[-1, 1]$ before $\arccos$ to guard against rounding overshoot.
 
 ### 2.4 The rotation angle $\sigma_S$
 
 $\sigma_S$ is the angle by which the Stokes reference frame at the scattered direction must be rotated to transform from the scattering plane to the local meridian plane. It is obtained from a second application of the spherical law of cosines (now in the spherical triangle whose vertices are the zenith, the sun direction, and the sky point):
 
 $$
-\cos\sigma_S \;=\; \frac{\cos\theta_{\odot} - \cos\theta_S \cos\mu}{\sin\mu\,\sin\theta_S}.
+\cos \sigma_S = \frac{\cos \theta_{\odot} - \cos \theta_S \, \cos \mu}{\sin \mu \, \sin \theta_S}.
 $$
 
-The sign (i.e. which hemisphere $\sigma_S$ lies in) is determined by the azimuth difference $\Delta\varphi \equiv \varphi_S - \varphi_{\odot}$:
+The sign (i.e. which hemisphere $\sigma_S$ lies in) is determined by the azimuth difference $\Delta \varphi = \varphi_S - \varphi_{\odot}$:
 
 $$
-\sigma_S \;=\;
+\sigma_S =
 \begin{cases}
-180^{\circ} + \arccos(\,\cdot\,) & \Delta\varphi \in [0^{\circ},\,180^{\circ}] \quad\text{(Case A)}\\[4pt]
-360^{\circ} - \arccos(\,\cdot\,) & \text{otherwise} \quad\text{(Case B)}
+180^{\circ} + \arccos(\cdot), & \Delta \varphi \in [0^{\circ}, 180^{\circ}] \quad \text{(Case A)} \\
+360^{\circ} - \arccos(\cdot), & \text{otherwise} \quad \text{(Case B)}
 \end{cases}
 $$
 
@@ -143,14 +142,14 @@ Several geometrically degenerate cases must be handled separately, all in `compu
 | Condition | Treatment |
 |---|---|
 | $\mu \approx 0^{\circ}$ or $\mu \approx 180^{\circ}$ (forward/back scatter) | $\sigma_S$ undefined; set to $0$. $\mathrm{DoLP} = 0$ here in any case. |
-| $\theta_S = 0$ (sky point at the zenith) | Use the limiting form $\arccos\!\bigl(\cos\theta_{\odot}\cos(\varphi_S - \varphi_{\odot})\bigr)$, with $\Delta\varphi$-dependent branch. |
+| $\theta_S = 0$ (sky point at the zenith) | Use the limiting form $\arccos(\cos \theta_{\odot} \, \cos(\varphi_S - \varphi_{\odot}))$, with $\Delta \varphi$-dependent branch. |
 | $\theta_{\odot} = 0$ (sun at the zenith) | Meridian reference is arbitrary; set $\sigma_S = 0$. |
 | Both at zenith | $\sigma_S = 0$. |
 
 A separate $180^{\circ}$ symmetry correction is applied at the call site when $\varphi_{\odot} > 180^{\circ}$:
 
 $$
-\sigma_S \;\leftarrow\; 180^{\circ} - \sigma_S.
+\sigma_S \leftarrow 180^{\circ} - \sigma_S.
 $$
 
 This keeps the polarization reference frame consistent across the morning/afternoon symmetry of the sky pattern.
@@ -160,20 +159,18 @@ This keeps the polarization reference frame consistent across the morning/aftern
 The angle of polarization (the orientation of the electric-field oscillation in the local meridian plane) is
 
 $$
-\boxed{\;\mathrm{AoP} \;=\; \tfrac{1}{2}\,\operatorname{atan2}(U,\,Q) \pmod{180^{\circ}},\;}
+\mathrm{AoP} = \frac{1}{2} \, \mathrm{atan2}(U, Q) \mod 180^{\circ},
 $$
 
-wrapped into $[0^{\circ},\,180^{\circ})$ because the AoP is defined modulo $180^{\circ}$ ($E$-field oscillations along directions differing by $180^{\circ}$ are physically indistinguishable).
+wrapped into $[0^{\circ}, 180^{\circ})$ because the AoP is defined modulo $180^{\circ}$ ($E$-field oscillations along directions differing by $180^{\circ}$ are physically indistinguishable).
 
 ### 2.6 Wavelength and particle-size dependence
 
-For a spherical particle of radius $r$ and complex refractive index $m = m_r + i\,m_i$, the Rayleigh scattering cross-section scales as
+For a spherical particle of radius $r$ and complex refractive index $m = m_r + i \, m_i$, the Rayleigh scattering cross-section scales as
 
 $$
-\sigma_{\mathrm{sc}} \;\propto\; \alpha^{6}\,|\chi|^{2},
-\qquad
-\alpha = \frac{2\pi r}{\lambda},
-\qquad
+\sigma_{\text{sc}} \propto \alpha^{6} \, |\chi|^{2}, \qquad
+\alpha = \frac{2 \pi r}{\lambda}, \qquad
 \chi = \frac{m^{2} - 1}{m^{2} + 2}.
 $$
 
@@ -190,12 +187,12 @@ Section 3 of the MATLAB demo (`demoSkyPolarization.m`) explicitly verifies the w
 
 The solar position is computed in `computeSunPosition.m` / `compute_sun_position` from a standard textbook algorithm (see, e.g., the University of Minnesota ME-4131 Solar Radiation appendix referenced in the source). The chain of computations is:
 
-**Step 1 — Day of year.** From the calendar date, compute $n \in [1,\,365]$ (or $366$ in leap years).
+**Step 1 — Day of year.** From the calendar date, compute $n \in [1, 365]$ (or $366$ in leap years).
 
 **Step 2 — Solar declination.** The angle between the sun's rays and the equatorial plane:
 
 $$
-\delta \;=\; 23.45^{\circ} \cdot \sin\!\left(\frac{360^{\circ}}{365}\,(284 + n)\right).
+\delta = 23.45^{\circ} \cdot \sin \! \left( \frac{360^{\circ}}{365} \, (284 + n) \right).
 $$
 
 This ranges from $-23.45^{\circ}$ at the winter solstice to $+23.45^{\circ}$ at the summer solstice.
@@ -203,21 +200,21 @@ This ranges from $-23.45^{\circ}$ at the winter solstice to $+23.45^{\circ}$ at 
 **Step 3 — Equation of Time.** Corrects for the eccentricity of Earth's orbit and axial tilt:
 
 $$
-B \;=\; \frac{360^{\circ}}{365}\,(n - 81),
+B = \frac{360^{\circ}}{365} \, (n - 81),
 $$
 
 $$
-\mathrm{EOT} \;=\; 0.165\,\sin(2B) \;-\; 0.126\,\cos(B) \;-\; 0.025\,\sin(B) \quad \text{[hours]}.
+\mathrm{EOT} = 0.165 \, \sin(2 B) - 0.126 \, \cos(B) - 0.025 \, \sin(B) \quad \text{[hours]}.
 $$
 
-**Step 4 — Local solar time.** Converts local clock time $t_{\mathrm{clock}}$ to true solar time using the observer's longitude $\lambda_{\mathrm{obs}}$ and time-zone standard meridian:
+**Step 4 — Local solar time.** Converts local clock time $t_{\text{clock}}$ to true solar time using the observer's longitude $\lambda_{\text{obs}}$ and time-zone standard meridian:
 
 $$
-L_{\mathrm{std}} = 15^{\circ} \cdot \mathrm{gmtOffset},
+L_{\text{std}} = 15^{\circ} \cdot \mathrm{gmtOffset},
 $$
 
 $$
-\mathrm{LST} \;=\; t_{\mathrm{clock}} \;-\; \tfrac{1}{15}\,(L_{\mathrm{std}} - \lambda_{\mathrm{obs}}) \;+\; \mathrm{EOT} \;-\; \mathrm{DST},
+\mathrm{LST} = t_{\text{clock}} - \frac{1}{15} (L_{\text{std}} - \lambda_{\text{obs}}) + \mathrm{EOT} - \mathrm{DST},
 $$
 
 where the $\mathrm{DST}$ term subtracts the daylight-saving offset if active.
@@ -225,34 +222,34 @@ where the $\mathrm{DST}$ term subtracts the daylight-saving offset if active.
 **Step 5 — Hour angle.** Zero at solar noon, positive in the afternoon:
 
 $$
-H \;=\; 15^{\circ}\,(\mathrm{LST} - 12) \quad \text{[degrees]}.
+H = 15^{\circ} \, (\mathrm{LST} - 12) \quad \text{[degrees]}.
 $$
 
 **Step 6 — Elevation, zenith, azimuth.**
 
 $$
-\sin(\mathrm{elv}) \;=\; \sin\phi\,\sin\delta \;+\; \cos\phi\,\cos\delta\,\cos H,
+\sin(\mathrm{elv}) = \sin \phi \, \sin \delta + \cos \phi \, \cos \delta \, \cos H,
 $$
 
 $$
-\mathrm{elv} \;=\; \arcsin\!\bigl(\mathrm{clip}(\sin\mathrm{elv},\,-1,\,1)\bigr), \qquad
-\theta_{\odot} \;=\; 90^{\circ} - \mathrm{elv},
+\mathrm{elv} = \arcsin(\sin \mathrm{elv}), \qquad
+\theta_{\odot} = 90^{\circ} - \mathrm{elv},
 $$
 
-where $\phi$ is the observer's latitude. The azimuth is derived from the components of the sun's unit vector in the local East-North-Up frame:
+where $\phi$ is the observer's latitude (and $\sin \mathrm{elv}$ is clipped to $[-1, 1]$ before $\arcsin$ for numerical safety). The azimuth is derived from the components of the sun's unit vector in the local East-North-Up frame:
 
 $$
 \begin{aligned}
-E_{\odot} &= -\cos\delta\,\sin H \\
-N_{\odot} &= \phantom{-}\sin\delta\,\cos\phi \;-\; \cos\delta\,\cos H\,\sin\phi
+E_{\odot} &= -\cos \delta \, \sin H \\
+N_{\odot} &= \sin \delta \, \cos \phi - \cos \delta \, \cos H \, \sin \phi
 \end{aligned}
 $$
 
 $$
-\varphi_{\odot} \;=\; \operatorname{atan2}\!\bigl(E_{\odot},\,N_{\odot}\bigr) \pmod{360^{\circ}}.
+\varphi_{\odot} = \mathrm{atan2}(E_{\odot}, N_{\odot}) \mod 360^{\circ}.
 $$
 
-This convention is *azimuth measured from geographic North, clockwise* — i.e. $0^{\circ} = $ N, $90^{\circ} = $ E, $180^{\circ} = $ S, $270^{\circ} = $ W. Note that the altitude field of the observer struct is *stored* in the output but is not currently used in the physics (the model is geometric and ignores atmospheric refraction).
+This convention is *azimuth measured from geographic North, clockwise* — i.e. $0^{\circ} =$ N, $90^{\circ} =$ E, $180^{\circ} =$ S, $270^{\circ} =$ W. Note that the altitude field of the observer struct is *stored* in the output but is not currently used in the physics (the model is geometric and ignores atmospheric refraction).
 
 A warning is emitted when the sun is below the horizon; the polarization computation still runs, but the result has no physical meaning at night.
 
@@ -308,9 +305,9 @@ Both implementations render the same three-panel layout:
 
 | Panel | Quantity | Range | Colormap |
 |---|---|---|---|
-| 1 | DoLP — degree of linear polarization | $[0,\,1]$ | parula |
-| 2 | AoP — angle of polarization (degrees) | $[0^{\circ},\,180^{\circ})$ | hsv (cyclic) |
-| 3 | DoP — total degree of polarization | $[0,\,1]$ | parula |
+| 1 | DoLP — degree of linear polarization | $[0, 1]$ | parula |
+| 2 | AoP — angle of polarization (degrees) | $[0^{\circ}, 180^{\circ})$ | hsv (cyclic) |
+| 3 | DoP — total degree of polarization | $[0, 1]$ | parula |
 
 A cyclic colormap (`hsv`) is mandatory for the AoP panel because $0^{\circ}$ and $180^{\circ}$ are physically equivalent; a non-cyclic colormap would introduce a spurious discontinuity. The Python port reproduces the MATLAB `parula` colormap from a 64-stop look-up table interpolated to 512 samples (lines 65–102 of `sky_polarization_gui.py`).
 
@@ -322,19 +319,22 @@ The sun position is marked with a filled yellow disc when above the horizon and 
 
 The conventions used throughout the code are:
 
-- **Zenith** $\theta$: $0^{\circ} = $ directly overhead, $90^{\circ} = $ horizon.
-- **Azimuth** $\varphi$: measured from geographic North, clockwise ($0^{\circ} = $ N, $90^{\circ} = $ E, $180^{\circ} = $ S, $270^{\circ} = $ W).
+- **Zenith** $\theta$: $0^{\circ} =$ directly overhead, $90^{\circ} =$ horizon.
+- **Azimuth** $\varphi$: measured from geographic North, clockwise ($0^{\circ} =$ N, $90^{\circ} =$ E, $180^{\circ} =$ S, $270^{\circ} =$ W).
 - **Fisheye projection**:
+
   $$
-  x \;=\; \theta\,\sin\varphi \quad (\text{East}), \qquad
-  y \;=\; \theta\,\cos\varphi \quad (\text{North}).
+  x = \theta \, \sin \varphi \quad (\text{East}), \qquad
+  y = \theta \, \cos \varphi \quad (\text{North}).
   $$
+
   The polar radius is the zenith *angle*, not its sine — this is the standard "equidistant" projection used in atmospheric optics.
 - **3D hemisphere**: unit-sphere coordinates
+
   $$
-  x = \sin\theta\,\sin\varphi, \qquad
-  y = \sin\theta\,\cos\varphi, \qquad
-  z = \cos\theta.
+  x = \sin \theta \, \sin \varphi, \qquad
+  y = \sin \theta \, \cos \varphi, \qquad
+  z = \cos \theta.
   $$
 
 The grid is built as
@@ -369,7 +369,7 @@ so that all 2-D arrays are indexed `[zenith_index, azimuth_index]`.
 | `year` | int | Four-digit year |
 | `month` | int | 1–12 |
 | `day` | int | 1–31 |
-| `hour` | float | Local clock time in decimal hours (e.g. $14.5 = $ 2:30 PM) |
+| `hour` | float | Local clock time in decimal hours (e.g. $14.5 =$ 2:30 PM) |
 | `dst` | int | Daylight-saving offset in hours (0 or 1; default 0) |
 
 **Optional parameters:**
@@ -387,9 +387,9 @@ A struct (MATLAB) or dictionary (Python) with the following fields:
 |---|---|---|
 | `azimuth` | $(N_a,)$ | Azimuth grid vector, degrees |
 | `zenith` | $(N_z,)$ | Zenith grid vector, degrees |
-| `DoLP` | $(N_z, N_a)$ | Degree of linear polarization, $[0,\,1]$ |
+| `DoLP` | $(N_z, N_a)$ | Degree of linear polarization, $[0, 1]$ |
 | `DoCP` | $(N_z, N_a)$ | Degree of circular polarization ($= 0$ for single Rayleigh) |
-| `AoP` | $(N_z, N_a)$ | Angle of polarization, degrees, $[0^{\circ},\,180^{\circ})$ |
+| `AoP` | $(N_z, N_a)$ | Angle of polarization, degrees, $[0^{\circ}, 180^{\circ})$ |
 | `Q` | $(N_z, N_a)$ | Normalised Stokes $Q$ |
 | `U` | $(N_z, N_a)$ | Normalised Stokes $U$ |
 | `I` | $(N_z, N_a)$ | Normalised intensity ($1$ everywhere) |
@@ -448,10 +448,10 @@ The simulator reproduces the following well-known features of the single-scatter
 
 4. **Diurnal motion of the polarization pattern.** Section 4 of the demo renders DoLP at two-hour intervals from 06:00 to 18:00; the pattern rotates with the sun while maintaining the great-circle structure perpendicular to the solar direction.
 
-5. **Solstice geometry.** At local noon on the summer solstice at latitude $\phi = 33.42^{\circ}\,\mathrm{N}$, the predicted solar elevation is approximately
+5. **Solstice geometry.** At local noon on the summer solstice at latitude $\phi = 33.42^{\circ}$ N, the predicted solar elevation is approximately
 
    $$
-   \mathrm{elv}_{\mathrm{noon}} \;\approx\; 90^{\circ} - (\phi - \delta_{\max}) \;=\; 90^{\circ} - (33.42^{\circ} - 23.45^{\circ}) \;\approx\; 80.0^{\circ},
+   \mathrm{elv}_{\text{noon}} \approx 90^{\circ} - (\phi - \delta_{\max}) = 90^{\circ} - (33.42^{\circ} - 23.45^{\circ}) \approx 80.0^{\circ},
    $$
 
    which matches the model output to within the accuracy of the declination formula.
@@ -464,7 +464,7 @@ The model is deliberately minimal. The following effects are *not* included:
 
 - **Multiple scattering.** Real skies show $\mathrm{DoLP} \lesssim 0.85$ at $\mu = 90^{\circ}$, not $1.0$, because multiply-scattered photons depolarize the field. A two-stream or doubling-and-adding code (e.g. libRadtran, DISORT) would be required to model this.
 - **Neutral points.** Babinet ($\sim 25^{\circ}$ above the sun), Brewster ($\sim 25^{\circ}$ below the sun), and Arago ($\sim 25^{\circ}$ above the anti-sun) points have $\mathrm{DoLP} = 0$ in real skies as a consequence of multiple-scattering and surface-reflection contributions. The single-scatter model has only the trivial neutral points at the sun and anti-sun.
-- **Aerosol loading and large particles.** A $100$ nm particle radius and refractive index $m = 1.53 + 0.007\,i$ are encoded in the source but the result is normalised and *invariant* under these choices for DoLP and AoP. Mie-regime particles (dust, cloud droplets) would produce a different scattering matrix and a markedly different polarization pattern.
+- **Aerosol loading and large particles.** A $100$ nm particle radius and refractive index $m = 1.53 + 0.007 \, i$ are encoded in the source but the result is normalised and *invariant* under these choices for DoLP and AoP. Mie-regime particles (dust, cloud droplets) would produce a different scattering matrix and a markedly different polarization pattern.
 - **Surface reflection.** Ground albedo and water-surface glints can contribute polarization that the model ignores.
 - **Atmospheric refraction.** Near the horizon, refraction lifts the apparent solar position by up to $\sim 0.5^{\circ}$; the solar position algorithm here is purely geometric.
 - **Spectral effects on intensity.** The $\lambda^{-4}$ blue-sky factor is folded into the (suppressed) intensity normalisation, not into the output.
@@ -472,7 +472,7 @@ The model is deliberately minimal. The following effects are *not* included:
 Natural extensions for future versions:
 
 - Replace the Rayleigh scattering matrix with a full Mie computation to support arbitrary particle sizes and indices.
-- Add a multiple-scattering correction (a simple analytic model would already shift the maximum DoLP into the realistic $0.7\text{–}0.85$ range and introduce neutral points).
+- Add a multiple-scattering correction (a simple analytic model would already shift the maximum DoLP into the realistic $0.7$–$0.85$ range and introduce neutral points).
 - Expose the intensity normalisation so that wavelength-dependent radiance maps can be produced.
 - Add export hooks (FITS, HDF5, NPZ) so that the simulator can serve as a synthetic-truth generator for instrument-development pipelines.
 
@@ -485,7 +485,7 @@ Natural extensions for future versions:
 | `skyPolarization.m` | MATLAB | Top-level API |
 | `computeSunPosition.m` | MATLAB | Solar position from date + clock time |
 | `computeRayleighSkyMap.m` | MATLAB | Sky grid, scattering angle, Stokes parameters |
-| `computeSigmaS.m` | MATLAB | Scattering-plane $\to$ meridian-plane rotation angle |
+| `computeSigmaS.m` | MATLAB | Scattering-plane to meridian-plane rotation angle |
 | `plotSkyPolarization.m` | MATLAB | 2D fisheye + 3D hemisphere visualization |
 | `demoSkyPolarization.m` | MATLAB | Five-section worked example / regression script |
 | `sky_polarization.py` | Python (NumPy) | Headless port of the MATLAB physics |
