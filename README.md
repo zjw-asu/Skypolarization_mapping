@@ -327,21 +327,20 @@ The conventions used throughout the code are:
 
 - **Zenith** $\theta$: $0^{\circ} =$ directly overhead, $90^{\circ} =$ horizon.
 - **Azimuth** $\varphi$: measured from geographic North, clockwise ($0^{\circ} =$ N, $90^{\circ} =$ E, $180^{\circ} =$ S, $270^{\circ} =$ W).
-- **Fisheye projection**:
+- **Fisheye projection** (see equation below). The polar radius is the zenith *angle*, not its sine — this is the standard "equidistant" projection used in atmospheric optics.
+- **3D hemisphere**: unit-sphere coordinates (see second equation below).
 
-  $$
-  x = \theta \cdot \sin \varphi \quad (\text{East}), \qquad
-  y = \theta \cdot \cos \varphi \quad (\text{North}).
-  $$
+Fisheye projection:
 
-  The polar radius is the zenith *angle*, not its sine — this is the standard "equidistant" projection used in atmospheric optics.
-- **3D hemisphere**: unit-sphere coordinates
+```math
+x = \theta \cdot \sin \varphi \quad (\text{East}), \qquad y = \theta \cdot \cos \varphi \quad (\text{North})
+```
 
-  $$
-  x = \sin \theta \cdot \sin \varphi, \qquad
-  y = \sin \theta \cdot \cos \varphi, \qquad
-  z = \cos \theta.
-  $$
+3D hemisphere (unit-sphere) coordinates:
+
+```math
+x = \sin \theta \cdot \sin \varphi, \qquad y = \sin \theta \cdot \cos \varphi, \qquad z = \cos \theta
+```
 
 The grid is built as
 
