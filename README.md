@@ -1,9 +1,10 @@
 # Sky Polarization Simulator — Technical White Paper
 
 **A full-sky Rayleigh scattering polarization model with MATLAB and Python implementations**
+
+---
 Author: Jiawei Zuo
 Contact Info: jzuo@krakenoptix.com
----
 
 ## Abstract
 
