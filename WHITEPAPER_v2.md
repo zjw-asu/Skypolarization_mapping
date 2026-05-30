@@ -1,4 +1,4 @@
-# Sky Polarization Simulator — Technical White Paper (v2, LaTeX edition)
+# Sky Polarization Simulator — Technical White Paper
 
 **A full-sky Rayleigh scattering polarization model with MATLAB and Python implementations**
 
