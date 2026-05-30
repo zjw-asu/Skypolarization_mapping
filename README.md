@@ -54,7 +54,13 @@ where:
 - $\mathbf{F}_{\text{Rayl}}(\mu)$ is the Rayleigh scattering matrix in the scattering plane, parameterized by the scattering angle $\mu$.
 - $\mathbf{L}(\sigma_S)$ rotates from the scattering plane back to the local meridian plane at the scattered direction (the sky point seen by the observer).
 
-A critical simplification arises from the unpolarized input: $\mathbf{L}(\sigma) \cdot \mathbf{S}_{\text{in}} = \mathbf{S}_{\text{in}}$, because rotation does not alter unpolarized light. Therefore only the rotation $\mathbf{L}(\sigma_S)$ matters, and the implementation needs to compute exactly one rotation angle per sky point.
+A critical simplification arises from the unpolarized input:
+
+$$
+\mathbf{L}(\sigma) \cdot \mathbf{S}_{\text{in}} = \mathbf{S}_{\text{in}},
+$$
+
+because rotation does not alter unpolarized light. Therefore only the rotation $\mathbf{L}(\sigma_S)$ matters, and the implementation needs to compute exactly one rotation angle per sky point.
 
 ### 2.2 The Rayleigh scattering matrix
 
@@ -448,7 +454,7 @@ The image below was produced by the simulator using the parameters listed undern
 | Observer | longitude | $-111.93^{\circ}$ E (i.e. $111.93^{\circ}$ W) |
 | Observer | altitude | $340$ m |
 | Observer | gmtOffset | $-7$ h (MST) |
-| Time | date | $2024$-$06$-$21$ (summer solstice) |
+| Time | date | 2024-06-21 (summer solstice) |
 | Time | hour | $10.0$ (local clock) |
 | Time | dst | $1$ (daylight saving active) |
 | Options | resolution | $1.5^{\circ}$ |
@@ -518,13 +524,11 @@ The simulator reproduces the following well-known features of the single-scatter
 
 4. **Diurnal motion of the polarization pattern.** Section 4 of the demo renders DoLP at two-hour intervals from 06:00 to 18:00; the pattern rotates with the sun while maintaining the great-circle structure perpendicular to the solar direction.
 
-5. **Solstice geometry.** At local noon on the summer solstice at latitude $\phi = 33.42^{\circ}$ N, the predicted solar elevation is approximately
+5. **Solstice geometry.** At local noon on the summer solstice at latitude $\phi = 33.42^{\circ}$ N, the predicted solar elevation is approximately as follows (see equation below the list), which matches the model output to within the accuracy of the declination formula.
 
-   $$
-   \mathrm{elv}_{\text{noon}} \approx 90^{\circ} - (\phi - \delta_{\max}) = 90^{\circ} - (33.42^{\circ} - 23.45^{\circ}) \approx 80.0^{\circ},
-   $$
-
-   which matches the model output to within the accuracy of the declination formula.
+```math
+\mathrm{elv}_\text{noon} \approx 90^{\circ} - (\phi - \delta_\text{max}) = 90^{\circ} - (33.42^{\circ} - 23.45^{\circ}) \approx 80.0^{\circ}
+```
 
 ---
 
