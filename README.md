@@ -454,6 +454,15 @@ The image below was produced by the simulator using the parameters listed undern
 
 ![Sky polarization mapping output for Tempe, AZ on the 2024 summer solstice at 10:00 local](sky_polarization_mapping.jpg)
 
+**Reading the figure.**
+
+- The yellow disc marks the sun's apparent position — east-south-east and roughly halfway up the sky at this hour.
+- The **DoLP** panels show the great-circle band of maximum polarization at scattering angle $\mu = 90^{\circ}$. It passes overhead and reaches the horizon $90^{\circ}$ away from the sun in azimuth. DoLP drops to zero at the sun and at the anti-solar point.
+- The **AoP** panel uses a cyclic colormap and is overlaid with short black tick marks. Each tick's orientation is the local $E$-field direction; its length is proportional to the local DoLP. The well-known *tangential* pattern around the sun (ticks form circles concentric with the sun direction) is clearly visible — this is the geometry that insects and bio-inspired sensors use as a celestial compass.
+- The **DoP** panel is numerically identical to DoLP here because single Rayleigh scattering produces no circular polarization ($V = 0 \Rightarrow \mathrm{DoP} = \sqrt{Q^2 + U^2} = \mathrm{DoLP}$).
+
+
+
 **Input parameters used to generate this figure:**
 
 | Group | Field | Value |
@@ -489,13 +498,6 @@ plotSkyPolarization(result);
 ```
 
 `plotSkyPolarization(result)` opens two figure windows corresponding to the two rows of the embedded image.
-
-**Reading the figure.**
-
-- The yellow disc marks the sun's apparent position — east-south-east and roughly halfway up the sky at this hour.
-- The **DoLP** panels show the great-circle band of maximum polarization at scattering angle $\mu = 90^{\circ}$. It passes overhead and reaches the horizon $90^{\circ}$ away from the sun in azimuth. DoLP drops to zero at the sun and at the anti-solar point.
-- The **AoP** panel uses a cyclic colormap and is overlaid with short black tick marks. Each tick's orientation is the local $E$-field direction; its length is proportional to the local DoLP. The well-known *tangential* pattern around the sun (ticks form circles concentric with the sun direction) is clearly visible — this is the geometry that insects and bio-inspired sensors use as a celestial compass.
-- The **DoP** panel is numerically identical to DoLP here because single Rayleigh scattering produces no circular polarization ($V = 0 \Rightarrow \mathrm{DoP} = \sqrt{Q^2 + U^2} = \mathrm{DoLP}$).
 
 **Headless reproduction (Python script).** The same data can be generated without the GUI by importing the headless function:
 
