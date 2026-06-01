@@ -1,5 +1,5 @@
 """
-Sky Polarization Simulator — Python conversion of MATLAB codebase.
+Sky Polarization Simulator.
 
 Computes full-sky Rayleigh scattering polarization maps using the Mueller
 matrix (Stokes) formalism for unpolarized sunlight scattered by small
