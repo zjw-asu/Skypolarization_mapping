@@ -538,7 +538,7 @@ The simulator reproduces the following well-known features of the single-scatter
 
 ## 7. Limitations and Future Work
 
-The model is deliberately minimal. The following effects are *not* included:
+Following effects in this model are *not* included:
 
 - **Multiple scattering.** Real skies show $\mathrm{DoLP} \lesssim 0.85$ at $\mu = 90^{\circ}$, not $1.0$, because multiply-scattered photons depolarize the field. A two-stream or doubling-and-adding code (e.g. libRadtran, DISORT) would be required to model this.
 - **Neutral points.** Babinet ($\sim 25^{\circ}$ above the sun), Brewster ($\sim 25^{\circ}$ below the sun), and Arago ($\sim 25^{\circ}$ above the anti-sun) points have $\mathrm{DoLP} = 0$ in real skies as a consequence of multiple-scattering and surface-reflection contributions. The single-scatter model has only the trivial neutral points at the sun and anti-sun.
