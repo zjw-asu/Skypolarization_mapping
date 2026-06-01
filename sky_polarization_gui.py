@@ -2,8 +2,7 @@
 Sky Polarization GUI — Interactive 2D fisheye and 3D hemisphere visualization.
 
 Provides a tkinter-based GUI to configure observer location and time, compute
-Rayleigh scattering polarization maps, and display results matching the MATLAB
-reference output.
+Rayleigh scattering polarization maps.
 
 Usage
 -----
