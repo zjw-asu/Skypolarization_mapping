@@ -15,23 +15,17 @@ Two reference implementations are provided:
 1. A MATLAB toolbox with a six-file modular API
 2. Python port that includes an interactive tkinter GUI with side-by-side 2D fisheye and 3D hemisphere visualizations.
    
-This white paper describes the fundamental physics, the sign conventions, the software architecture, the API, and the limitations of the model.
+This white paper describes the fundamental physics, the software architecture, the API, and the limitations of the model.
 
 ---
 
 ## 1. Introduction
 
-The polarization of skylight was first quantitatively described by Lord Rayleigh in 1871 as a consequence of the elastic scattering of sunlight by molecules and small particles in the Earth's atmosphere. For particles whose radius $r$ is much smaller than the wavelength $\lambda$ of incident light (the *Rayleigh regime*, $r \lesssim \lambda/10$), the scattered intensity varies as $\lambda^{-4}$ — the physical origin of the blue sky — and the scattered light becomes partially linearly polarized, with the strongest polarization observed perpendicular to the solar direction.
+The polarization of skylight was first described by Lord Rayleigh in 1871 as a consequence of the elastic scattering of sunlight by molecules and small particles in the Earth's atmosphere. For particles whose radius $r$ is much smaller than the wavelength $\lambda$ of incident light (the *Rayleigh regime*, $r \lesssim \lambda/10$), the scattered intensity varies as $\lambda^{-4}$ — the physical origin of the blue sky — and the scattered light becomes partially linearly polarized, with the strongest polarization observed perpendicular to the solar direction.
 
 Polarization pattern of the sky is exploited by several insect species (notably honeybees and desert ants) as a celestial compass; it is the basis of recent bio-inspired *polarization-based navigation* systems for autonomous platforms in GNSS-denied environments; and it provides a clean test case for radiative-transfer codes used in atmospheric remote sensing. (buzzzzzzzzzzzzz, cheers !)
 
-The simulator described here computes the **single-scattering** sky polarization for an arbitrary observer/time pair. It is intended for:
-
-- Teaching the connection between solar geometry, scattering geometry, and Stokes-vector algebra.
-- Generating synthetic ground-truth polarization maps for bio-inspired navigation experiments.
-- Forward-modelling baseline (multiple-scattering-free) polarization for sensor calibration.
-
-Multiple-scattering, aerosol-loading effects, and ground-reflection contributions are deliberately omitted; the model is the cleanest possible reduction of the underlying physics and converges to the observed sky pattern in clear, low-aerosol-load conditions away from the neutral points (Babinet, Brewster, Arago).
+The simulator described here computes the **single-scattering** sky polarization, given a location & time. 
 
 ---
 
@@ -454,6 +448,15 @@ The image below was produced by the simulator using the parameters listed undern
 
 ![Sky polarization mapping output for Tempe, AZ on the 2024 summer solstice at 10:00 local](sky_polarization_mapping.jpg)
 
+**Reading the figure.**
+
+- The yellow disc marks the sun's apparent position — east-south-east and roughly halfway up the sky at this hour.
+- The **DoLP** panels show the great-circle band of maximum polarization at scattering angle $\mu = 90^{\circ}$. It passes overhead and reaches the horizon $90^{\circ}$ away from the sun in azimuth. DoLP drops to zero at the sun and at the anti-solar point.
+- The **AoP** panel uses a cyclic colormap and is overlaid with short black tick marks. Each tick's orientation is the local $E$-field direction; its length is proportional to the local DoLP. The well-known *tangential* pattern around the sun (ticks form circles concentric with the sun direction) is clearly visible — this is the geometry that insects and bio-inspired sensors use as a celestial compass.
+- The **DoP** panel is numerically identical to DoLP here because single Rayleigh scattering produces no circular polarization ($V = 0 \Rightarrow \mathrm{DoP} = \sqrt{Q^2 + U^2} = \mathrm{DoLP}$).
+
+
+
 **Input parameters used to generate this figure:**
 
 | Group | Field | Value |
@@ -489,13 +492,6 @@ plotSkyPolarization(result);
 ```
 
 `plotSkyPolarization(result)` opens two figure windows corresponding to the two rows of the embedded image.
-
-**Reading the figure.**
-
-- The yellow disc marks the sun's apparent position — east-south-east and roughly halfway up the sky at this hour.
-- The **DoLP** panels show the great-circle band of maximum polarization at scattering angle $\mu = 90^{\circ}$. It passes overhead and reaches the horizon $90^{\circ}$ away from the sun in azimuth. DoLP drops to zero at the sun and at the anti-solar point.
-- The **AoP** panel uses a cyclic colormap and is overlaid with short black tick marks. Each tick's orientation is the local $E$-field direction; its length is proportional to the local DoLP. The well-known *tangential* pattern around the sun (ticks form circles concentric with the sun direction) is clearly visible — this is the geometry that insects and bio-inspired sensors use as a celestial compass.
-- The **DoP** panel is numerically identical to DoLP here because single Rayleigh scattering produces no circular polarization ($V = 0 \Rightarrow \mathrm{DoP} = \sqrt{Q^2 + U^2} = \mathrm{DoLP}$).
 
 **Headless reproduction (Python script).** The same data can be generated without the GUI by importing the headless function:
 
